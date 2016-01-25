@@ -28,16 +28,14 @@ public class Lab2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws AWTException {
-        // TODO code application logic here
-        
-        
+        // Testing tool created      
         TestTool testTool = new TestTool();
         testTool.setSize(400,450);
         testTool.setLocation(870, 90);
         testTool.setVisible(true);
-        
-        
         Toolkit tk = Toolkit.getDefaultToolkit();
+        
+        // event listener for the .Jar GUI application
         MyAWTEventListener ml = new MyAWTEventListener(){
             JTextField num1;
             JTextField num2;
@@ -53,18 +51,21 @@ public class Lab2 {
                     try{
                         //testNumbers(me);
                         JTextField jtf = (JTextField) me.getSource();
-                        int yCoord = jtf.getY(), xCoord = jtf.getX();                     
+                        int yCoord = jtf.getY(), xCoord = jtf.getX();
+                        
+                        // detects if num1 textbox is clicked
                         if(yCoord == 28){
                             num1 = jtf;
                             num1.setText(Integer.toString(TestTool.num1InputFile.get(num1Count)));
-                            System.out.println("you got it!");
                             num1Count++;
                         }
+                        //detects if num2 textbox is clicked
                         if(yCoord == 108){
                             num2 = jtf;
                             num2.setText(Integer.toString(TestTool.num2InputFile.get(num2Count)));
                             num2Count++;
                         }
+                        // detects if the sum textbox is clicked
                         if(yCoord == 179){
                             sum = jtf;
                         }
@@ -78,11 +79,12 @@ public class Lab2 {
                         // ok button is clicked
                         if(submitButton != null){
                             try{
+                                //stores the numbers and prints them out to the textarea 
                                 int num1Input = Integer.parseInt(num1.getText());
                                 int num2Input = Integer.parseInt(num2.getText());
                                 int sumInput = Integer.parseInt(sum.getText());
                                 int diff = Math.abs((num1Input + num2Input) - sumInput);
-                                String validity = isValid(num1Input,num2Input,sumInput);
+                                String validity = isValid(num1Input,num2Input,sumInput); 
                                 String textLine = "%s + %s = %s " + validity + " diff=" + diff +"\n";
                                 String textAreaText = num1Input + " +" + num2Input + " = " + sumInput + "       "+ validity +"    diff=" + diff +"\n"; 
                                 System.out.printf(textLine, num1.getText(),num2.getText(),sum.getText());
@@ -94,39 +96,23 @@ public class Lab2 {
                     }      
                 }
             }
+            // prints the text field to the text area
             public void printTextField(String text) {
                 testTool.validationTextArea.append(text);
             }
             
+            // determines weather the case is valid or not
             private String isValid(int num1, int num2, int sum){
                 if(num1 + num2 != sum){
                     return "Failed!";
                 }
                 return "Passed!";
-            }
-            
-            private void testNumbers(MouseEvent me) throws AWTException{
-                JTextField jtf = (JTextField) me.getSource();
-                int yCoord = jtf.getY(), xCoord = jtf.getX();
-                if(yCoord == 28){
-                    num1 = jtf;
-                    num1.setText(String.valueOf(num1Count));
-                    System.out.println(num1.getText());
-                    num1Count++;
-                }
-                if(yCoord == 108){
-                    num2 = jtf;
-                    num2.setText(String.valueOf(num2Count));
-                    System.out.println(num2.getText());
-                    num2Count++;
-                }
-                if(yCoord == 179){
-                    sum = jtf;
-                }              
             } 
         };
         tk.addAWTEventListener(ml, AWTEvent.MOUSE_EVENT_MASK); 
     }
+    
+    //simulates a mouse click with the robot
     public static void simulateMouseClick(int x,int y,int delay) throws AWTException{
         robot = new Robot();
         robot.mouseMove(x, y);
@@ -136,7 +122,7 @@ public class Lab2 {
         //System.out.println("It Worked!");
     }
     
-    // robot clicks element1 inserts from x and element2 from y
+    // robot clicks all the textboxes then submits
     public static void robotAdd(int delay) throws AWTException{
         int guiXLoc = TestTool.getGuiXLoc();
         int guiYLoc = TestTool.getGuiYLoc();

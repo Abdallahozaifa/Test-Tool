@@ -32,19 +32,22 @@ public class TestTool extends javax.swing.JFrame {
         initComponents();
         setMGUI();
     }
+    // GUI Frame
     static MyGUI mgui = new MyGUI();
+    // sets the properties for the GUI
     private void setMGUI(){
         mgui.setLocation(200, 90);
         mgui.setSize(500,400);
         mgui.setVisible(true);
         mgui.setResizable(false);
     }
-        
+    // ArrayList to store the first,second, and expected sum digit    
     public static ArrayList<Integer> num1InputFile = new ArrayList();
     public static ArrayList<Integer> num2InputFile = new ArrayList();
     public static ArrayList<Integer> expectedSum = new ArrayList();
-    JFileChooser testingFileChooser = new JFileChooser();
+    JFileChooser testingFileChooser = new JFileChooser(); // allows users to select a file
     
+    // determines weather a file is selected or not
     private boolean fileSelected(){
         if(testingFileChooser.getSelectedFile() == null){
             return false;
@@ -52,6 +55,7 @@ public class TestTool extends javax.swing.JFrame {
         return true;
     }
     
+    // obtains the selected files name
      private String getSelectedFileName(){
         String selectedFile = null;
         if(fileSelected()){
@@ -59,6 +63,8 @@ public class TestTool extends javax.swing.JFrame {
         }
         return selectedFile;
     }
+     
+     //validates the file to make sure it has the .txt extension
     private boolean validateFile(){
         String extension = null;
         String acceptedExtension = "txt";
@@ -79,6 +85,7 @@ public class TestTool extends javax.swing.JFrame {
         }
     }
     
+    // reads the file
     private void readFile(String fileName){
         String line = null;
         try {
@@ -106,6 +113,7 @@ public class TestTool extends javax.swing.JFrame {
         }
     }
     
+    // obtains the GUI's x and y location on the screen for the robot
     public static int getGuiXLoc(){
         return mgui.getLocation().x;
     }
@@ -217,12 +225,18 @@ public class TestTool extends javax.swing.JFrame {
         int guiXLoc = mgui.getLocation().x;
         int guiYLoc = mgui.getLocation().y;
         testingFileChooser.showDialog(new JFrame(""), null);
+        
+        //sees weather a file is selected or not
         if(testingFileChooser.getSelectedFile() != null){
             File selectedFile = testingFileChooser.getSelectedFile();
             String fileName = selectedFile.getName();
+            
+            //validates the file
             if(validateFile()){
                 readFile(fileName);
                 try {
+                    
+                    // simulates the robot clicks
                     for(int i=0;i<20;i++){
                         Lab2.robotAdd(delaySlider.getValue());
                     }
