@@ -40,12 +40,13 @@ public class TestTool extends javax.swing.JFrame {
         mgui.setSize(500,400);
         mgui.setVisible(true);
         mgui.setResizable(false);
+        mgui.setEnabled(false);
     }
     // ArrayList to store the first,second, and expected sum digit    
     public static ArrayList<Integer> num1InputFile = new ArrayList();
     public static ArrayList<Integer> num2InputFile = new ArrayList();
     public static ArrayList<Integer> expectedSum = new ArrayList();
-    JFileChooser testingFileChooser = new JFileChooser(); // allows users to select a file
+    public JFileChooser testingFileChooser = new JFileChooser(); // allows users to select a file
     
     // determines weather a file is selected or not
     private boolean fileSelected(){
@@ -95,8 +96,8 @@ public class TestTool extends javax.swing.JFrame {
             // Always wrap FileReader in BufferedReader.
             BufferedReader bufferedReader = new BufferedReader(fileReader);
 
+           // reads the text and adds it to 3 separate arrays
             while((line = bufferedReader.readLine()) != null) {
-                //System.out.println(line);
                 String firstNum = line.substring(0, line.indexOf(" "));
                 String[] nums = line.split(" ");
                 num1InputFile.add(Integer.parseInt(nums[0]));
@@ -131,7 +132,7 @@ public class TestTool extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        importFileButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         validationTextArea = new javax.swing.JTextArea();
         delaySlider = new javax.swing.JSlider();
@@ -142,10 +143,10 @@ public class TestTool extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "TestTool", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
-        jButton1.setText("Import File");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        importFileButton.setText("Import File");
+        importFileButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                importFileButtonActionPerformed(evt);
             }
         });
 
@@ -169,7 +170,7 @@ public class TestTool extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(137, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(importFileButton)
                 .addGap(118, 118, 118))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
@@ -189,7 +190,7 @@ public class TestTool extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(importFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(11, 11, 11)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -220,8 +221,8 @@ public class TestTool extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    private void importFileButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importFileButtonActionPerformed
+        // specifies location and shows the JFileChooser
         int guiXLoc = mgui.getLocation().x;
         int guiYLoc = mgui.getLocation().y;
         testingFileChooser.showDialog(new JFrame(""), null);
@@ -233,18 +234,19 @@ public class TestTool extends javax.swing.JFrame {
             
             //validates the file
             if(validateFile()){
+                mgui.setEnabled(true);
                 readFile(fileName);
                     new Thread(() -> {
                     try {
                         Lab2.robotAdd(delaySlider.getValue());
+                        mgui.setEnabled(false);
                     } catch (AWTException ex) {
                         Logger.getLogger(TestTool.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }).start();
-
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_importFileButtonActionPerformed
 
     private void delaySliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_delaySliderStateChanged
         delayLabel.setText(delaySlider.getValue() + " ms");
@@ -288,7 +290,7 @@ public class TestTool extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel delayLabel;
     public javax.swing.JSlider delaySlider;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton importFileButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
