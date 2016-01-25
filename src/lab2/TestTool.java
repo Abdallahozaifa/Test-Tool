@@ -234,16 +234,14 @@ public class TestTool extends javax.swing.JFrame {
             //validates the file
             if(validateFile()){
                 readFile(fileName);
-                try {
-                    
-                    // simulates the robot clicks
-                    for(int i=0;i<20;i++){
+                    new Thread(() -> {
+                    try {
                         Lab2.robotAdd(delaySlider.getValue());
+                    } catch (AWTException ex) {
+                        Logger.getLogger(TestTool.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                } catch (AWTException ex) {
-                    Logger.getLogger(TestTool.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                }).start();
+
             }
         }
     }//GEN-LAST:event_jButton1ActionPerformed

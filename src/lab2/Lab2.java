@@ -126,10 +126,15 @@ public class Lab2 {
     public static void robotAdd(int delay) throws AWTException{
         int guiXLoc = TestTool.getGuiXLoc();
         int guiYLoc = TestTool.getGuiYLoc();
-        Lab2.simulateMouseClick(guiXLoc + 300, guiYLoc + 80, delay);
-        Lab2.simulateMouseClick(guiXLoc + 300, guiYLoc + 160, delay);
-        Lab2.simulateMouseClick(guiXLoc + 300, guiYLoc + 240, delay);
-        Lab2.simulateMouseClick(guiXLoc + 290, guiYLoc + 360, delay);
+        
+        // simulates the robot clicks
+        for(int i=0;i<20;i++){
+            Lab2.simulateMouseClick(guiXLoc + 300, guiYLoc + 80, delay);
+            Lab2.simulateMouseClick(guiXLoc + 300, guiYLoc + 160, delay);
+            Lab2.simulateMouseClick(guiXLoc + 300, guiYLoc + 240, delay);
+            Lab2.simulateMouseClick(guiXLoc + 290, guiYLoc + 360, delay);
+        }
+        
     }
 }
 
